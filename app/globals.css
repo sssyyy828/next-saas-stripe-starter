@@ -126,6 +126,16 @@
     --grid-border: oklch(1 0 0 / 12%);
 }
 
+/* module:docs start */
+/* Inactive sidebar links and the search trigger use fd-muted-foreground.
+   On the light sidebar (oklch(0.97 0 0) ≈ #f5f5f5) the shared token
+   oklch(0.556 0 0) ≈ #737373 is 4.34:1. oklch(0.545 0 0) ≈ #707070 is
+   4.54:1 there. Dark mode keeps the shared token. */
+html:not(.dark) #nd-sidebar {
+    --color-fd-muted-foreground: oklch(0.545 0 0);
+}
+/* module:docs end */
+
 /* Dashboard palette, scoped so marketing keeps its own. */
 [data-dashboard] {
     --radius: 0.375rem;
