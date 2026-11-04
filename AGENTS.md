@@ -22,3 +22,17 @@ Every module in `config/features.ts` can be deleted for good with `pnpm modules:
 - A new module declares its `files`, `packages` and `routes`.
 
 Check with `pnpm modules:prune <module>`: without `--yes` it only prints what it would delete.
+
+# Cloud Agent
+
+Node.js 22 and pnpm 10 match `.github/workflows/prune.yml`. From the repo root:
+
+```bash
+pnpm install --frozen-lockfile
+test -f .env.local || cp .env.example .env.local
+pnpm dev
+```
+
+`pnpm dev` listens on port 3000. Docs, blog, changelog, and the marketing pages run with the example env file left empty. Authentication and billing stay off until `DATABASE_URL` (Neon) and the Stripe variables in `.env.example` are set; `/login`, `/dashboard`, `/pricing`, and `/admin` then respond 404. The database client is `@neondatabase/serverless`, which speaks WebSocket to the host's `/v2` proxy, so a generic local Postgres URL is not a substitute for Neon.
+
+`pnpm typecheck` and `pnpm build` succeed without those secrets. `pnpm lint` currently fails on existing code in `components/marketing/panel-demo.tsx` (`react-hooks/set-state-in-effect`).
